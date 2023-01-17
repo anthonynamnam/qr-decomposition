@@ -52,15 +52,8 @@ class Matrix:
             self.values[i][i] = values
 
 
-def QR(M: Matrix, method="MGS", print_step=False) -> tuple():
-    assert method in ["MGS","Household","Rotation"]
+def QR_MGS(M: Matrix, print_step=False) -> tuple():
     
-    if method == "MGS":
-        M.print_values()
-        
-    elif method == "Household":
-        pass
-    elif method == "Rotation":
-        pass
     
+    M.print_values()
     return
