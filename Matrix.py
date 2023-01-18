@@ -162,3 +162,41 @@ def QR_GS(M: Matrix) -> tuple():
     Q.transpose()
 
     return (Q, R)
+
+
+# QR Decomposition by Modified Gram-Schmidt Process
+def QR_MGS(M: Matrix) -> tuple():
+    
+    
+    # Q_vectors = []
+    # for i in range(M.n_col):
+    #     # Get the column vector
+    #     curr_column = [row[i] for row in M.values]
+
+    #     # Removing Projection of current vector on calculated orthogonal vector
+    #     q = curr_column
+    #     if i > 0:
+    #         for k in range(i):
+    #             q -= M.proj_on(curr_column, Q_vectors[k])
+    #     # Normalise the column vector
+    #     q = q / M.length(q)
+
+    #     # Store the vector in the row, need to do transpose when completed all iteration
+    #     Q_vectors.append(list(q))
+
+    # # Create a new matrix of the Q_vectors
+    # Q = Matrix(n_col=M.n_col, n_row=M.n_row, two_d_array=Q_vectors)
+
+    # # As we perform the iteration column-by-column, we need to do transpose to get the correct Q matrix
+    # Q.transpose()
+
+    # # --- Here we have the correct Q Matrix ---
+
+    # # Calculate R by tranpose of Q times A
+    # Q.transpose()
+    # R = Q.multiply(M)
+
+    # # Convert back to the correct Q
+    # Q.transpose()
+
+    return (Q, R)
