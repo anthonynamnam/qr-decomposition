@@ -9,4 +9,4 @@ A = Matrix(
 )
 
 # ----- Example of Modified Gram Schmdit -----
-Matrix.QR_MGS(A, method="MGS", print_step=False)
+# Matrix.QR_MGS(A, method="MGS", print_step=False)
