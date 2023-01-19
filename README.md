@@ -1,13 +1,13 @@
-# QR Decomposition Example
+# QR Decomposition Example with Classical Gram-Schmidt Process and Modified Gram-Schmidt Process
 
 Source code for article:  
- ...
+ https://kwokanthony.medium.com/important-decomposition-in-linear-algebra-detailed-explanation-on-qr-decomposition-by-classical-3f8f5425915f
 
 ## Instruction
 
-- Matrix.py contains the Matrix Class and the function of QR decomposition.
-- You can select the method of QR decomposition.
-- Run main.py to output the QR decomposition result.
+- Matrix.py contains the Matrix Class and the function of QR Decomposition.
+- Function QR_GS and QR_MGS are the functions for QR Decomposition by Gram-Schmidt Process and Modified Gram-Schmidt Process respectively
+- Run main.py to output the QR Decomposition example with both process.
 
 ---
 
