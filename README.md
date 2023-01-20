@@ -6,7 +6,7 @@ Source code for article:
 ## Instruction
 
 - Matrix.py contains the Matrix Class and the function of QR Decomposition.
-- Function QR_GS and QR_MGS are the functions for QR Decomposition by Gram-Schmidt Process and Modified Gram-Schmidt Process respectively
+- Function QR_GS and QR_MGS are the functions for QR Decomposition by Gram-Schmidt Process and Modified Gram-Schmidt Process respectively. Both functions return Q & R matrix in a tuple
 - Run main.py to output the QR Decomposition example with both process.
 
 ---
