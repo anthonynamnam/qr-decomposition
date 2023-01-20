@@ -1,4 +1,4 @@
-from Matrix import Matrix
+from Matrix import Matrix, QR_GS, QR_MGS
 
 # ----- Example of QR Decomposition -----
 # Create the matrix
@@ -8,5 +8,33 @@ A = Matrix(
     two_d_array=[[2, -1, -2], [-4, 6, 3], [-4, -2, 8]],
 )
 
-# ----- Example of Modified Gram Schmdit -----
-# Matrix.QR_MGS(A, method="MGS", print_step=False)
+# main.py
+# ----- Example of Gram Schmdit Process -----
+print("----- Gram-Schmidt Process -----")
+A.print_values(matrix_name="A")
+Q, R = QR_GS(A)
+
+Q.print_values(matrix_name="Q", num_digits=4)
+
+R.print_values(matrix_name="R", num_digits=4)
+
+print("----- Validate Result -----")
+new_A = Q.multiply(R)
+new_A.print_values(matrix_name="new_A", num_digits=4)
+
+
+print("===============================================================")
+
+# main.py
+# ----- Example of Modified Gram Schmdit Process -----
+print("----- Modified Gram-Schmidt Process -----")
+A.print_values(matrix_name="A")
+Q, R = QR_MGS(A)
+
+Q.print_values(matrix_name="Q", num_digits=4)
+
+R.print_values(matrix_name="R", num_digits=4)
+
+print("----- Validate Result -----")
+new_A = Q.multiply(R)
+new_A.print_values(matrix_name="new_A", num_digits=4)
