@@ -1,4 +1,4 @@
-from Matrix import Matrix, QR_GS, QR_MGS, QR_householder
+from Matrix import Matrix, QR_GS, QR_MGS, QR_Householder
 
 # ----- Example of QR Decomposition -----
 # Create the matrix
@@ -45,7 +45,7 @@ print("===============================================================")
 # ----- Example of Householder Transformation -----
 print("----- Householder Transformation -----")
 A.print_values(matrix_name="A")
-Q, R = QR_householder(A)
+Q, R = QR_Householder(A)
 
 Q.print_values(matrix_name="Q", num_digits=4)
 

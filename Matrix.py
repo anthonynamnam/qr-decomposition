@@ -211,7 +211,7 @@ def QR_MGS(M: Matrix) -> tuple():
 
 
 # QR Decomposition by Householder Transformation
-def QR_householder(M: Matrix) -> tuple():
+def QR_Householder(M: Matrix) -> tuple():
 
     Qs = []
 
