@@ -1,4 +1,4 @@
-from Matrix import Matrix, QR_GS, QR_MGS
+from Matrix import Matrix, QR_GS, QR_MGS, QR_householder
 
 # ----- Example of QR Decomposition -----
 # Create the matrix
@@ -30,6 +30,22 @@ print("===============================================================")
 print("----- Modified Gram-Schmidt Process -----")
 A.print_values(matrix_name="A")
 Q, R = QR_MGS(A)
+
+Q.print_values(matrix_name="Q", num_digits=4)
+
+R.print_values(matrix_name="R", num_digits=4)
+
+print("----- Validate Result -----")
+new_A = Q.multiply(R)
+new_A.print_values(matrix_name="new_A", num_digits=4)
+
+print("===============================================================")
+
+# main.py
+# ----- Example of Householder Transformation -----
+print("----- Householder Transformation -----")
+A.print_values(matrix_name="A")
+Q, R = QR_householder(A)
 
 Q.print_values(matrix_name="Q", num_digits=4)
 

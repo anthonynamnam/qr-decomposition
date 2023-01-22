@@ -208,3 +208,92 @@ def QR_MGS(M: Matrix) -> tuple():
     Q.transpose()
 
     return (Q, R)
+
+
+# QR Decomposition by Householder Transformation
+def QR_householder(M: Matrix) -> tuple():
+
+    Qs = []
+
+    curr_M = M
+    # ===========================================================
+    for k in range(0, M.n_row):
+        # Get the sub-matrix, nothing happened then k = 0
+        sub_matrix_values = []
+        for i in range(M.n_row):
+            row = []
+            for j in range(M.n_col):
+                if i < k or j < k:
+                    continue
+                row.append(curr_M.values[i][j])
+            if len(row) > 0:
+                sub_matrix_values.append(row)
+
+        # Get Sub-Matrix for next iteration
+        sub_matrix = Matrix(
+            n_row=M.n_row - k, n_col=M.n_col - k, two_d_array=sub_matrix_values
+        )
+
+        # ==================== Start Calculation ============================
+        sign_a11 = 1 if sub_matrix.values[0][0] >= 0 else -1
+
+        # Get the current column vector
+        q = [row[0] for row in sub_matrix.values]
+        e = [1 if j == 0 else 0 for j in range(sub_matrix.n_col)]
+
+        # Normalise the column vector
+        b = q - (-sign_a11) * sub_matrix.length(q) * np.array(e)
+        q = b / sub_matrix.length(b)
+
+        # Calculate matrix Q
+        q_values = []
+        for i in range(sub_matrix.n_row):
+            row = []
+            for j in range(sub_matrix.n_col):
+                if i == j:
+                    row.append(1 - 2 * q[i] * q[j])
+                else:
+                    row.append(-2 * q[i] * q[j])
+            q_values.append(row)
+        Q = Matrix(n_row=sub_matrix.n_row, n_col=sub_matrix.n_col, two_d_array=q_values)
+
+        # ===========================================================
+        # Check if need extend, nothing to do if k = 0
+        if Q.n_row < M.n_row and Q.n_col < M.n_col:
+            # Extend the Matrix to original size
+            dim_this = Q.n_row
+            dim_first = M.n_row
+            dim_diff = dim_first - dim_this
+            if dim_diff > 0:
+                extended_Q_values = []
+                for i in range(dim_first):
+                    row = []
+                    for j in range(dim_first):
+                        # Add the extended part
+                        if i < dim_diff or j < dim_diff:
+                            if i == j:
+                                row.append(1)
+                            else:
+                                row.append(0)
+                        # Add back the result of the Q
+                        else:
+                            row.append(Q.values[i - dim_diff][j - dim_diff])
+                    extended_Q_values.append(row)
+                Q = Matrix(n_row=dim_first, n_col=dim_first, two_d_array=extended_Q_values)
+        
+        # ===========================================================
+        # Save the Q matrix
+        Qs.append(Q)
+        curr_M = Q.multiply(M)
+    
+    # Calculate Q and R with all the {Q_1 ... Q_k}
+    final_R = M
+    final_Q = Matrix(n_row=M.n_row,n_col=M.n_col)
+    final_Q.set_diagonal()
+    
+    for matrix in Qs:
+        final_R = matrix.multiply(final_R)
+        matrix.transpose()
+        final_Q = final_Q.multiply(matrix)
+    
+    return final_Q, final_R
