@@ -10,6 +10,7 @@ Source code for article:
   - QR_GS for QR Decomposition by classical Gram-Schmidt Process
   - QR_MGS for QR Decomposition by Modified Gram-Schmidt Process
   - QR_Householder for QR Decomposition by Householder Transformation
+  - QR_GivensRotations for QR Decomposition by Givens Rotations [To be uploaded Soon]
 - Run main.py to output the QR Decomposition example with both process.
 
 ---
