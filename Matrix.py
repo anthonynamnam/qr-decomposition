@@ -1,5 +1,6 @@
+import math
 import numpy as np
-import copy
+
 
 # Set up of Matrix Class
 class Matrix:
@@ -24,13 +25,17 @@ class Matrix:
                         row_val.append(0)
                 self.values.append(row_val)
         elif all_zero:
-            for i in range(n_col):
+            for i in range(n_row):
                 row_val = []
-                for j in range(n_row):
+                for j in range(n_col):
                     row_val.append(0.0)
                 self.values.append(row_val)
 
         self.calculate_determinant(self.values)
+
+    def deep_copy(self):
+        new_M = Matrix(self.n_row, self.n_col, two_d_array=self.values)
+        return new_M
 
     def set_diagonal(self, values=1):
         assert self.n_col == self.n_row, "set_diagonal only available to square matrix"
@@ -39,23 +44,46 @@ class Matrix:
 
     @staticmethod
     # Return the cofactor for calculating the determinant
-    def sub_matrix(two_d_array, remove_row, remove_col):
+    def sub_matrix_value(two_d_array, remove_row, remove_col):
         new_matrix = []
-        for i in range(len(two_d_array)):
-            if remove_row == i:
-                continue
-            new_row = []
-            for j in range(len(two_d_array[i])):
-                if remove_col == j:
+        if type(remove_row) == str:
+            remove_row = [int(remove_row)]
+        elif type(remove_row) == int:
+            remove_row = [remove_row]
+
+        if type(remove_col) == str:
+            remove_row = [int(remove_col)]
+        elif type(remove_col) == int:
+            remove_row = [remove_col]
+
+        if type(remove_row) == list:
+            for i in range(len(two_d_array)):
+                if i in remove_row:
                     continue
-                new_row.append(two_d_array[i][j])
-            new_matrix.append(new_row)
+                new_row = []
+                for j in range(len(two_d_array[i])):
+                    if j in remove_col:
+                        continue
+                    new_row.append(two_d_array[i][j])
+                new_matrix.append(new_row)
+
         return new_matrix
+
+    def sub_matrix(self, remove_row, remove_col):
+        sub_matrix_value = self.sub_matrix_value(self.values, remove_row, remove_col)
+        return Matrix(
+            self.n_row - len(remove_row),
+            self.n_col - len(remove_col),
+            two_d_array=sub_matrix_value,
+        )
 
     def calculate_determinant(self, two_d_array):
         n_row = len(two_d_array)
         n_col = len(two_d_array[0])
-        assert n_row == n_col, "calculate_determinant only available to square matrix"
+        if n_row == n_col:
+            # print(f">> calculate_determinant only available to square matrix")
+            self.determinant = None
+            return
 
         if n_row == 1:
             return np.sum(two_d_array)
@@ -67,8 +95,10 @@ class Matrix:
             else:
                 factor = -1
             first_num_in_row = two_d_array[i][0]
-            sub_matrix = self.sub_matrix(two_d_array, i, 0)
-            sum += factor * first_num_in_row * self.calculate_determinant(sub_matrix)
+            sub_matrix_value = self.sub_matrix_value(two_d_array, i, 0)
+            sum += (
+                factor * first_num_in_row * self.calculate_determinant(sub_matrix_value)
+            )
 
         self.determinant = sum
         return sum
@@ -83,7 +113,7 @@ class Matrix:
         self.values = new_values
 
     def print_shape(self):
-        print(f"Matrix Shape: ({self.n_col},{self.n_row})")
+        print(f"Matrix Shape: ({self.n_row},{self.n_col})")
 
     def print_determinant(self):
         print(f"Determinant: {self.determinant}")
@@ -96,6 +126,11 @@ class Matrix:
                 print(f"{round(row_val,num_digits)}\t", end="")
             print("")
         print("")
+
+    # Get column vectors
+    def get_column_vectors(self, column_index):
+        assert column_index < self.n_col
+        return [row[column_index] for row in self.values]
 
     # Get the projection of vector on another vector
     def proj_on(self, vector, on_vector):
@@ -122,7 +157,6 @@ class Matrix:
         assert type(new_M) == Matrix
         assert self.n_col == new_M.n_row
         res_M = Matrix(self.n_row, new_M.n_col)
-
         for i in range(self.n_row):
             for j in range(new_M.n_col):
                 left_vector = self.values[i]
@@ -174,7 +208,7 @@ def QR_MGS(M: Matrix) -> tuple():
     # Get all column vectors in M
     M_column_vector = []
     for i in range(M.n_col):
-        M_column_vector.append([row[i] for row in M.values])
+        M_column_vector.append(M.get_column_vectors(i))
 
     # Start iteration
     Q_vectors = []
@@ -219,7 +253,7 @@ def QR_Householder(M: Matrix) -> tuple():
     # ===========================================================
     for k in range(0, M.n_row):
         # Get the sub-matrix, nothing happened then k = 0
-        sub_matrix_values = []
+        minor_matrix_values = []
         for i in range(M.n_row):
             row = []
             for j in range(M.n_col):
@@ -227,35 +261,37 @@ def QR_Householder(M: Matrix) -> tuple():
                     continue
                 row.append(curr_M.values[i][j])
             if len(row) > 0:
-                sub_matrix_values.append(row)
+                minor_matrix_values.append(row)
 
         # Get Sub-Matrix for next iteration
-        sub_matrix = Matrix(
-            n_row=M.n_row - k, n_col=M.n_col - k, two_d_array=sub_matrix_values
+        minor_matrix = Matrix(
+            n_row=M.n_row - k, n_col=M.n_col - k, two_d_array=minor_matrix_values
         )
 
         # ==================== Start Calculation ============================
-        sign_a11 = 1 if sub_matrix.values[0][0] >= 0 else -1
+        sign_a11 = 1 if minor_matrix.values[0][0] >= 0 else -1
 
         # Get the current column vector
-        q = [row[0] for row in sub_matrix.values]
-        e = [1 if j == 0 else 0 for j in range(sub_matrix.n_col)]
+        q = minor_matrix.get_column_vectors(0)
+        e = [1 if j == 0 else 0 for j in range(minor_matrix.n_col)]
 
         # Normalise the column vector
-        b = q - (-sign_a11) * sub_matrix.length(q) * np.array(e)
-        q = b / sub_matrix.length(b)
+        b = q - (-sign_a11) * minor_matrix.length(q) * np.array(e)
+        q = b / minor_matrix.length(b)
 
         # Calculate matrix Q
         q_values = []
-        for i in range(sub_matrix.n_row):
+        for i in range(minor_matrix.n_row):
             row = []
-            for j in range(sub_matrix.n_col):
+            for j in range(minor_matrix.n_col):
                 if i == j:
                     row.append(1 - 2 * q[i] * q[j])
                 else:
                     row.append(-2 * q[i] * q[j])
             q_values.append(row)
-        Q = Matrix(n_row=sub_matrix.n_row, n_col=sub_matrix.n_col, two_d_array=q_values)
+        Q = Matrix(
+            n_row=minor_matrix.n_row, n_col=minor_matrix.n_col, two_d_array=q_values
+        )
 
         # ===========================================================
         # Check if need extend, nothing to do if k = 0
@@ -279,21 +315,72 @@ def QR_Householder(M: Matrix) -> tuple():
                         else:
                             row.append(Q.values[i - dim_diff][j - dim_diff])
                     extended_Q_values.append(row)
-                Q = Matrix(n_row=dim_first, n_col=dim_first, two_d_array=extended_Q_values)
-        
+                Q = Matrix(
+                    n_row=dim_first, n_col=dim_first, two_d_array=extended_Q_values
+                )
+
         # ===========================================================
         # Save the Q matrix
         Qs.append(Q)
         curr_M = Q.multiply(M)
-    
+
     # Calculate Q and R with all the {Q_1 ... Q_k}
     final_R = M
-    final_Q = Matrix(n_row=M.n_row,n_col=M.n_col)
+    final_Q = Matrix(n_row=M.n_row, n_col=M.n_col)
     final_Q.set_diagonal()
-    
+
     for matrix in Qs:
         final_R = matrix.multiply(final_R)
         matrix.transpose()
         final_Q = final_Q.multiply(matrix)
-    
+
     return final_Q, final_R
+
+
+def QR_GivensRotations(M: Matrix) -> tuple():
+    G_s = []
+    R = M.deep_copy()
+
+    for j in range(R.n_col):
+        for i in range(R.n_row - 1, j, -1):
+            if i > j:
+
+                # Construct Givens Rotation Matrix
+                col_to_remove = list(
+                    filter(lambda s: s != i and s != j, [i for i in range(R.n_row)])
+                )
+                sub = R.sub_matrix(col_to_remove, col_to_remove)
+                col_vector = sub.get_column_vectors(0)
+
+                # Calculate the angle to rotate
+                theta = math.atan2(
+                    -col_vector[1], col_vector[0]
+                )  # y-coordinate first, then x-coordinate
+
+                # Construct Givens Rotation Matrix
+                G_mat = Matrix(n_row=R.n_row, n_col=R.n_col)
+                G_mat.set_diagonal()
+                for row in [i, j]:
+                    for col in [i, j]:
+                        if row == col:
+                            G_mat.values[row][col] = math.cos(theta)
+                        else:
+                            G_mat.values[row][col] = (
+                                1 if row > col else -1
+                            ) * math.sin(theta)
+
+                # Save the Givens Rotation Matrix
+                G_s.append(G_mat)
+
+                # Calculate the R Matrix for next iteration
+                R = G_mat.multiply(R)
+
+    # Calculate the Q matrix by multiplying all the transpose of Givens Matrix
+    Q = Matrix(M.n_row, M.n_col)
+    Q.set_diagonal(1)
+    for G in G_s:
+        G.transpose()
+        Q = Q.multiply(G)
+        G.transpose()
+
+    return (Q, R)
