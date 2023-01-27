@@ -1,7 +1,9 @@
 # QR Decomposition Example with Classical Gram-Schmidt Process and Modified Gram-Schmidt Process
 
 Source code for article:  
- https://kwokanthony.medium.com/important-decomposition-in-linear-algebra-detailed-explanation-on-qr-decomposition-by-classical-3f8f5425915f
+ [Gram-Schmidt] https://kwokanthony.medium.com/important-decomposition-in-linear-algebra-detailed-explanation-on-qr-decomposition-by-classical-3f8f5425915f
+ [Householder Transformation] https://medium.com/@kwokanthony/detailed-explanation-with-example-on-qr-decomposition-by-householder-transformation-5e964d7f7656
+ [Givens Rotation]
 
 ## Instruction
 
