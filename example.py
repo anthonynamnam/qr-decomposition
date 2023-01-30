@@ -73,7 +73,7 @@ def householder():
     new_A.print_values(matrix_name="new_A", num_digits=4)
 
 
-def givens_rotations():
+def givens_rotation():
 
     A = Matrix(
         n_row=3,

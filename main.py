@@ -6,6 +6,6 @@ import example
 
 # example.householder()
 
-# example.givens_rotations()
+# example.givens_rotation()
 
 example.least_squares_problem()
