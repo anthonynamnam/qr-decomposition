@@ -203,7 +203,7 @@ def backward_substitution(A: Matrix, b: Matrix):
 
 
 # QR Decomposition by Gram-Schmidt Process
-def QR_GS(M: Matrix) -> tuple():
+def QR_CGS(M: Matrix) -> tuple():
     Q_vectors = []
     for i in range(M.n_col):
         # Get the column vector
@@ -374,7 +374,7 @@ def QR_Householder(M: Matrix) -> tuple():
     return final_Q, final_R
 
 
-def QR_GivensRotations(M: Matrix) -> tuple():
+def QR_Givens_Rotation(M: Matrix) -> tuple():
     G_s = []
     R = M.deep_copy()
 

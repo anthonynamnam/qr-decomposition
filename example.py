@@ -1,9 +1,9 @@
 from Matrix import (
     Matrix,
-    QR_GS,
+    QR_CGS,
     QR_MGS,
     QR_Householder,
-    QR_GivensRotations,
+    QR_Givens_Rotation,
     backward_substitution,
 )
 
@@ -19,7 +19,7 @@ def cgs():
 
     print("----- Example of Gram-Schmidt Process -----")
     A.print_values(matrix_name="A")
-    Q, R = QR_GS(A)
+    Q, R = QR_CGS(A)
 
     Q.print_values(matrix_name="Q", num_digits=4)
 
@@ -83,7 +83,7 @@ def givens_rotations():
 
     print("----- Givens Rotations -----")
     A.print_values(matrix_name="A")
-    Q, R = QR_GivensRotations(A)
+    Q, R = QR_Givens_Rotation(A)
 
     Q.print_values(matrix_name="Q", num_digits=4)
 
@@ -111,7 +111,7 @@ def least_squares_problem():
     b.print_values(matrix_name="b")
 
     print(f"\n----- QR Decompostition Result -----")
-    Q, R = QR_GivensRotations(A)
+    Q, R = QR_Givens_Rotation(A)
     Q.print_values(matrix_name="Q")
     R.print_values(matrix_name="R")
 

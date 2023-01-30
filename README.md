@@ -10,17 +10,17 @@ Source code for article:
 
 - All functions below in Matrix.py return Q & R matrix in a tuple.
 
-  - QR_GS for QR Decomposition by Classical Gram-Schmidt Process
-  - QR_MGS for QR Decomposition by Modified Gram-Schmidt Process
-  - QR_Householder for QR Decomposition by Householder Transformation
-  - QR_GivensRotations for QR Decomposition by Givens Rotations
+  - QR_GS() for QR Decomposition by Classical Gram-Schmidt Process
+  - QR_MGS() for QR Decomposition by Modified Gram-Schmidt Process
+  - QR_Householder() for QR Decomposition by Householder Transformation
+  - QR_Givens_Rotation() for QR Decomposition by Givens Rotation
 
 - Examples can be run in main.py:
 
   - example.cgs() --> Example of QR decomposition by Classical Gram-Schmidt Process
   - example.mgs() --> Example of QR decomposition by Modified Gram-Schmidt Process
   - example.householder() --> Example of QR decomposition by Householder Transformation
-  - example.givens_rotations() --> Example of QR decomposition by Givens Rotations
+  - example.givens_rotation() --> Example of QR decomposition by Givens Rotation
 
   - example.least_squares_problem() --> Example of Solving Least Square Problem by QR decomposition
 
