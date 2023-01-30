@@ -52,9 +52,9 @@ class Matrix:
             remove_row = [remove_row]
 
         if type(remove_col) == str:
-            remove_row = [int(remove_col)]
+            remove_col = [int(remove_col)]
         elif type(remove_col) == int:
-            remove_row = [remove_col]
+            remove_col = [remove_col]
 
         if type(remove_row) == list:
             for i in range(len(two_d_array)):
@@ -80,7 +80,7 @@ class Matrix:
     def calculate_determinant(self, two_d_array):
         n_row = len(two_d_array)
         n_col = len(two_d_array[0])
-        if n_row == n_col:
+        if n_row != n_col:
             # print(f">> calculate_determinant only available to square matrix")
             self.determinant = None
             return
@@ -163,6 +163,43 @@ class Matrix:
                 right_vector = [row[j] for row in new_M.values]
                 res_M.values[i][j] = self.dot_product(left_vector, right_vector)
         return res_M
+
+    def isUpperTriangular(self):
+        for i in range(self.n_row):
+            for j in range(self.n_col):
+                if i > j:
+                    if abs(self.values[i][j] - 0) >= 1e-12:
+                        return False
+                else:
+                    continue
+        return True
+
+    def isLowerTriangular(self):
+        for i in range(self.n_row):
+            for j in range(self.n_col):
+                if i < j:
+                    if abs(self.values[i][j] - 0) >= 1e-12:
+                        return False
+                else:
+                    continue
+        return True
+
+
+def backward_substitution(A: Matrix, b: Matrix):
+    assert b.n_col == 1
+    assert A.n_col == b.n_row
+    assert A.isUpperTriangular()
+    result = []
+    for i in range(A.n_row):
+        result.append(0)
+    for j in range(A.n_col):
+        result[2 - j] = (
+            b.values[2 - j][0] - A.dot_product(A.values[2 - j], result)
+        ) / (A.values[2 - j][2 - j])
+
+    result = [[k] for k in result]
+    x = Matrix(n_row=A.n_row, n_col=b.n_col, two_d_array=result)
+    return x
 
 
 # QR Decomposition by Gram-Schmidt Process
