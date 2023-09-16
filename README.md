@@ -4,7 +4,7 @@ QR Decomposition Example with Classical Gram-Schmidt Process and Modified Gram-S
 ## Project Type
 *Side Project*
  
-## Article  
+## Related Article  
  https://medium.com/@kwokanthony/important-decomposition-in-linear-algebra-detailed-explanation-on-qr-decomposition-by-classical-3f8f5425915f  
  https://medium.com/@kwokanthony/detailed-explanation-with-example-on-qr-decomposition-by-householder-transformation-5e964d7f7656
 
@@ -32,7 +32,7 @@ QR Decomposition Example with Classical Gram-Schmidt Process and Modified Gram-S
 
 ---
 
-If you want to give me some support, follow me now!  
- LinkedIn: https://www.linkedin.com/in/anthony-kwok-6a2a20123/  
- Medium Page: https://medium.com/@kwokanthony  
- Github: https://github.com/anthonynamnam
+ If you want to give me some support, follow me now!  
+ [LinkedIn](https://www.linkedin.com/in/anthonykwok073/) | 
+ [Medium](https://medium.com/@kwokanthony) | 
+ [Github](https://github.com/anthonynamnam)   
