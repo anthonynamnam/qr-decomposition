@@ -7,7 +7,7 @@ class Matrix:
     values = []
     determinant = None
 
-    def __init__(self, n_row, n_col, all_zero=True, two_d_array=None):
+    def __init__(self, n_row=1, n_col=1, all_zero=True, two_d_array=None):
         self.values = []
         self.n_row = n_row
         self.n_col = n_col
@@ -15,6 +15,8 @@ class Matrix:
             assert type(two_d_array) == list and type(two_d_array[0]) == list
             n_row = max(len(two_d_array), n_row)
             n_col = max(max([len(row) for row in two_d_array]), n_col)
+            self.n_row = n_row
+            self.n_col = n_col
             for i in range(n_row):
                 row_val = []
                 for j in range(n_col):
