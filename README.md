@@ -1,4 +1,4 @@
-# Title
+# Project Title
 QR Decomposition Example with Classical Gram-Schmidt Process and Modified Gram-Schmidt Process
 
 ## Project Type
